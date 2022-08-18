@@ -268,3 +268,102 @@ function updateEmployeeManager() {
 
 }
 
+function deleteDepartment() {
+    var deptList = [];
+    var deptData = [];
+    const sql = `SELECT * FROM employee_db.department;`;
+    db.promise().query(sql)
+        .then(response => {
+            if (response[0].length > 0) {
+                deptData.push(response[0]);
+                response[0].forEach(department => {
+                    deptList.push(department.name);
+                });
+                inquirer
+                    .prompt([{
+                        type: "list",
+                        message: questions[11],
+                        name: "departmentName",
+                        choices: deptList
+                    }]).then(response => {
+                        var deptId;
+                        for (var i = 0; i < deptData[0].length; i++) {
+                            if (response.departmentName == deptData[0][i].name) {
+                                deptId = deptData[0][i].id;
+                            };
+                        }
+                        const sql = `DELETE FROM employee_db.department WHERE id = ${deptId}`
+                        queries(sql, "Department");
+                    })
+            } else {
+                console.log("Please add a department to the database!");
+            }
+        })
+}
+
+function deleteRole() {
+    var roleList = [];
+    var roleData = [];
+    const sql = `SELECT * FROM employee_db.role;`;
+    db.promise().query(sql)
+        .then(response => {
+            if (response[0].length > 0) {
+                roleData.push(response[0]);
+                response[0].forEach(role => {
+                    roleList.push(role.title);
+                });
+                inquirer
+                    .prompt([{
+                        type: "list",
+                        message: questions[11],
+                        name: "roleName",
+                        choices: roleList
+                    }]).then(response => {
+                        var roleId;
+                        for (var i = 0; i < roleData[0].length; i++) {
+                            if (response.roleName == roleData[0][i].title) {
+                                roleId = roleData[0][i].id;
+                            };
+                        }
+                        const sql = `DELETE FROM employee_db.role WHERE id = ${roleId}`
+                        queries(sql, "Role");
+                    })
+            } else {
+                console.log("Please add a role to the database!");
+            }
+        })
+}
+
+function deleteEmployee() {
+    var employeeList = [];
+    var employeeData = [];
+    const sql = `SELECT * FROM employee_db.employee;`;
+    db.promise().query(sql)
+        .then(response => {
+            if (response[0].length > 0) {
+                employeeData.push(response[0]);
+                response[0].forEach(employee => {
+                    employeeList.push(`${employee.first_name} ${employee.last_name}`);
+                });
+                inquirer
+                    .prompt([{
+                        type: "list",
+                        message: questions[12],
+                        name: "employeeName",
+                        choices: employeeList
+                    }]).then(response => {
+                        var employeeId;
+                        for (var i = 0; i < employeeData[0].length; i++) {
+                            if (((response.employeeName).includes(employeeData[0][i].first_name)) && ((response.employeeName).includes(employeeData[0][i].last_name))) {
+                                employeeId = employeeData[0][i].id;
+                            };
+                        }
+                        const sql = `DELETE FROM employee_db.employee WHERE id = ${employeeId}`
+                        queries(sql, "Employee");
+                    })
+            } else {
+                console.log("Please add a role to the database!");
+            }
+        })
+}
+
