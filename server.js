@@ -2,6 +2,7 @@
 const inquirer = require('inquirer');
 const queries = require('./db/queries');
 const db = require('./db/connection');
+require('console.table')
 
 const {
     response
