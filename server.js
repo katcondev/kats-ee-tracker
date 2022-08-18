@@ -1,6 +1,6 @@
 // const connection = require('./config/connection');
 const inquirer = require('inquirer');
-const queries = require('./lib/queries');
+const queries = require('./db/queries');
 const db = require('./db/connection');
 
 const {
@@ -367,3 +367,90 @@ function deleteEmployee() {
         })
 }
 
+function totalBudget() {
+    var salaryList = [0];
+    const sql = `SELECT salary FROM employee_db.role;`;
+    db.promise().query(sql)
+        .then(response => {
+            response[0].forEach(salary => {
+                salaryList.push(parseFloat(salary.salary));
+            });
+            var sum = 0;
+            for (i = 0; i < salaryList.length; i++) {
+                sum += salaryList[i];
+            }
+            console.log(`$${sum}`);
+        })
+}
+
+function exit() {
+   
+}
+
+function init() {
+    inquirer
+        .prompt([{
+            type: "list",
+            message: questions[0],
+            name: "activity",
+            choices: [
+                "View All Departments",
+                "View All Roles",
+                "View All Employees",
+                "Add Department",
+                "Add Role",
+                "Add Employee",
+                "Update Employee Role",
+                "Update Employee Managers",
+                "Delete a Department",
+                "Delete an Employee",
+                "View the Total Utilized Budget of a Department"
+            ]
+        }]).then((response) => {
+            switch (response.activity) {
+                case "View All Departments":
+                    sql = `SELECT * FROM employee_db.department`;
+                    queries(sql);
+                    break;
+                case "View All Roles":
+                    sql = `SELECT employee_db.role.id, employee_db.role.title, employee_db.role.salary, employee_db.department.name AS department
+                    FROM  employee_db.role
+                    INNER JOIN employee_db.department ON employee_db.role.department_id=employee_db.department.id;`;
+                    queries(sql);
+                    break;
+                case "View All Employees":
+                    sql = `SELECT employee_db.employee.id, employee_db.employee.first_name, employee_db.employee.last_name, employee_db.role.title AS role
+                    FROM  employee_db.employee
+                    INNER JOIN employee_db.role ON employee_db.employee.role_id=employee_db.role.id;`;
+                    queries(sql);
+                    break;
+                case "Add Department":
+                    addDepartment();
+                    break;
+                case "Add Role":
+                    addRole();
+                    break;
+                case "Add Employee":
+                    addEmployee();
+                    break;
+                case "Update Employee Role":
+                    updateEmployeeRole();
+                    break;
+                case "Update Employee Managers":
+                    updateEmployeeManager();
+                    break;
+                case "Delete a Department":
+                    deleteDepartment();
+                    break;
+                case "Delete an Employee":
+                    deleteEmployee();
+                    break;
+                case "View the Total Utilized Budget of a Department":
+                    totalBudget();
+                    break;
+            }
+        })
+}
+
+// Function call to initialize app
+init();
