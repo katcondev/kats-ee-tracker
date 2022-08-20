@@ -1,4 +1,5 @@
 const db = require('./connection');
+require('console.table')
 
 function queries(sql, tableName) {
     db.promise().query(sql)
