@@ -3,8 +3,11 @@
 
 ![badge](https://img.shields.io/badge/license-MIT-brightgreen)<br />
 ## Description
-A CLI used to keep track of employees, budget and departments.
-![search](url)
+A CLI used to keep track of employees, budget and departments. 
+
+[View tutorial](https://www.youtube.com/watch?v=pC_atWdQ4ZA)
+
+![search](CLItracker.png)
 
 ## Table of Contents
 - [Description](#description)
