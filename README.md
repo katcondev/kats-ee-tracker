@@ -3,7 +3,8 @@
 
 ![badge](https://img.shields.io/badge/license-MIT-brightgreen)<br />
 ## Description
-![search](https://user-images.githubusercontent.com/90402597/161477819-1a932d76-9a75-4cda-b1e8-f7f74c290261.png)
+A CLI used to keep track of employees, budget and departments.
+![search](url)
 
 ## Table of Contents
 - [Description](#description)
